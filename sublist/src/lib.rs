@@ -6,7 +6,7 @@ pub enum Comparison {
     Unequal,
 }
 
-pub fn sublist<T: PartialEq>(_first_list: &[T], _second_list: &[T]) -> Comparison {
+pub fn sublist_old<T: PartialEq>(_first_list: &[T], _second_list: &[T]) -> Comparison {
     if _first_list.is_empty() {
         if _second_list.is_empty() {
             return Comparison::Equal;
@@ -29,4 +29,17 @@ pub fn sublist<T: PartialEq>(_first_list: &[T], _second_list: &[T]) -> Compariso
     })
     .or(Some(Comparison::Unequal))
     .unwrap()
+}
+
+
+pub fn sublist<T: PartialEq>(first: &[T], second: &[T]) -> Comparison {
+    let sublist = first.is_empty() || second.windows(first.len()).any(|x| x == first);
+    let superlist = second.is_empty() || first.windows(second.len()).any(|x| x == second);
+
+    match (sublist, superlist) {
+        (true, true) => Comparison::Equal,
+        (true, false) => Comparison::Sublist,
+        (false, true) => Comparison::Superlist,
+        (false, false) => Comparison::Unequal,
+    }
 }
