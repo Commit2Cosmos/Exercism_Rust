@@ -10,11 +10,11 @@ impl Luhn {
         .copied()
         .collect::<Vec<u8>>();
 
-    if code.iter().any(|x| !x.is_ascii_digit()) || code.len() < 2 {
-        return false;
-    }
+        if code.iter().any(|x| !x.is_ascii_digit()) || code.len() < 2 {
+            return false;
+        }
 
-    code.iter().rev()
+        code.iter().rev()
         .enumerate()
         .map(|(i, x)| {
             if i % 2 == 1 {
